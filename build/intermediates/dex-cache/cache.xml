@@ -1,3 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="/Users/Ollum/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="/Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1_73032515c21164c984820adeafdf87c0d96c4c2a.jar" />
+    </item>
+    <item
+        jar="/Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="/Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.1.1_cad75bce2895949d29c44ada19a4f8a22580eb7d.jar" />
+    </item>
+    <item
+        jar="/Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.1.1_56941cd4ea1bdb7b917ad197f54fd02de040ff39.jar" />
+    </item>
+    <item
+        jar="/Users/Ollum/AndroidStudioProjects/Werewolves/commons-validator-1.5.0/commons-validator-1.5.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="26b98c21975c5caf6bf34bacdeb7183be7a65970">
+        <dex dex="/Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/pre-dexed/debug/commons-validator-1.5.0_56c1031461355cb29e25eb22fcc4021cde6a13a2.jar" />
+    </item>
+    <item
+        jar="/Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="/Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-23.1.1_bbb8d7c74c0021b0efc5d66e6b8a157696cd93dc.jar" />
+    </item>
+    <item
+        jar="/Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1_975572623011cb659af987846d88e78b8f395006.jar" />
+    </item>
+
+</items>
