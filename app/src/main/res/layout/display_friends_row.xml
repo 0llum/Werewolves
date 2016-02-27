@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
-    android:orientation="horizontal">
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    android:background="@drawable/gradient">
 
     <TextView
         android:layout_width="match_parent"
@@ -10,6 +12,24 @@
         android:id="@+id/display_friends_row_username"
         android:layout_alignParentLeft="true"
         android:text="username"
-        android:textStyle="bold"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:singleLine="false"
+        android:layout_weight="1"
+        android:textColor="#FFFFFF"
+        android:layout_marginLeft="10dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remove"
+        android:id="@+id/display_friends_row_remove"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginRight="10dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"></LinearLayout>
+
 </LinearLayout>
