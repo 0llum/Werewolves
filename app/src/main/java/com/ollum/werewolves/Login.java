@@ -58,6 +58,4 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         BackgroundTask backgroundTask = new BackgroundTask(this);
         backgroundTask.execute(method, user.username, user.password);
     }
-
-    public void TestUpload() {}
 }
