@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ollum.werewolves.Friendlist"
-    android:background="@drawable/gradientBackground">
+    android:background="@drawable/gradientbackground">
 
     <EditText
         android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
         android:layout_alignBottom="@+id/friendlist_searchbar"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="10"/>
+        android:layout_marginRight="10dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
