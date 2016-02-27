@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ollum.werewolves.Friendlist">
+    tools:context="com.ollum.werewolves.Friendlist"
+    android:background="@drawable/gradientBackground">
 
     <EditText
         android:layout_width="wrap_content"
@@ -16,7 +17,8 @@
         android:layout_toStartOf="@+id/friendlist_add"
         android:hint="Username"
         android:focusable="true"
-        android:focusableInTouchMode="true" />
+        android:focusableInTouchMode="true"
+        android:layout_marginLeft="10dp"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -25,7 +27,8 @@
         android:id="@+id/friendlist_add"
         android:layout_alignBottom="@+id/friendlist_searchbar"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
