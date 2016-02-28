@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,7 +38,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.Recyc
         if (holder.viewType == TYPE_LIST) {
             User user = arrayList.get(position-1);
             holder.username.setText(user.getUsername());
-            holder.status.setText(Integer.toString(user.getStatus()));
+            if (user.getStatus() == 0) {
+                holder.status.setImageResource(R.drawable.offline);
+            } else if (user.getStatus() == 1) {
+                holder.status.setImageResource(R.drawable.online);
+            } else if (user.getStatus() == 2) {
+                holder.status.setImageResource(R.drawable.afk);
+            }
         }
     }
 
@@ -48,7 +55,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.Recyc
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        TextView username, status;
+        TextView username;
+        ImageView status;
         int viewType;
 
         public RecyclerViewHolder(View view, int viewType) {
@@ -56,11 +64,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.Recyc
             if (viewType == TYPE_LIST) {
                 this.viewType = TYPE_LIST;
                 username = (TextView)view.findViewById(R.id.display_friends_row_username);
-                status = (TextView)view.findViewById(R.id.display_friends_row_status);
+                status = (ImageView)view.findViewById(R.id.display_friends_row_status);
             } else if (viewType == TYPE_HEAD) {
                 this.viewType = TYPE_HEAD;
             }
-
         }
     }
 

@@ -5,9 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class Menu extends AppCompatActivity implements View.OnClickListener {
 
+    TextView welcome;
     Button bFriends, bStats, bRules, bOpenGames, bCreateGame, bLogout;
     UserLocalStore userLocalStore;
     User user;
@@ -34,6 +36,8 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
         userLocalStore = new UserLocalStore(this);
 
         user = userLocalStore.getLoggedInUser();
+        welcome = (TextView)findViewById(R.id.menu_welcome);
+        welcome.setText("Welcome, " + user.getUsername());
     }
 
     @Override

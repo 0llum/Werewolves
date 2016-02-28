@@ -349,6 +349,9 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             case ("User is already your friend"):
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
                 break;
+            case ("You cannot add yourself as a friend"):
+                Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+                break;
             case ("Friend could not be added"):
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
                 break;
