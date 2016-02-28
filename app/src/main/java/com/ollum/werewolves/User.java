@@ -3,23 +3,27 @@ package com.ollum.werewolves;
 public class User {
 
     String username, password, email;
+    int status;
 
     public User (String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.status = 0;
     }
 
     public User (String username, String password) {
         this.username = username;
         this.password = password;
         this.email = "";
+        this.status = 0;
     }
 
-    public User (String username) {
+    public User (String username, int status) {
         this.username = username;
         this.password = "";
         this.email = "";
+        this.status = status;
     }
 
     public String getUsername() {
@@ -44,5 +48,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getStatus() {
+        return status;
     }
 }

@@ -1,5 +1,6 @@
 package com.ollum.werewolves;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -20,8 +21,6 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
 
     Context ctx;
 
-    //UserLocalStore userLocalStore = new UserLocalStore(ctx);
-
     public BackgroundTask(Context ctx) {
         this.ctx = ctx;
     }
@@ -35,7 +34,11 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
      protected String doInBackground(String... params) {
         String reg_url = "http://0llum.bplaced.net/Werewolves/SignUp.php";
         String login_url = "http://0llum.bplaced.net/Werewolves/Login.php";
+        String offline_url = "http://0llum.bplaced.net/Werewolves/Offline.php";
+        String online_url = "http://0llum.bplaced.net/Werewolves/Online.php";
+        String afk_url = "http://0llum.bplaced.net/Werewolves/AFK.php";
         String addFriend_url = "http://0llum.bplaced.net/Werewolves/AddFriend.php";
+        String removeFriend_url = "http://0llum.bplaced.net/Werewolves/RemoveFriend.php";
         String method = params[0];
 
         if (method.equals("signUp")) {
@@ -116,12 +119,158 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if (method.equals("online")) {
+            String username = params[1];
+
+            try {
+                URL url = new URL(online_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String data =   URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String response = "";
+                String line = "";
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    response += line;
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                return response.trim();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (method.equals("offline")) {
+            String username = params[1];
+
+            try {
+                URL url = new URL(offline_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String data =   URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String response = "";
+                String line = "";
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    response += line;
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                return response.trim();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (method.equals("afk")) {
+            String username = params[1];
+
+            try {
+                URL url = new URL(afk_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String data =   URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String response = "";
+                String line = "";
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    response += line;
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                return response.trim();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else if (method.equals("addFriend")) {
             String username_1 = params[1];
             String username_2 = params[2];
 
             try {
                 URL url = new URL(addFriend_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String data =   URLEncoder.encode("username_1", "UTF-8") + "=" + URLEncoder.encode(username_1, "UTF-8") + "&" +
+                        URLEncoder.encode("username_2", "UTF-8") + "=" + URLEncoder.encode(username_2, "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String response = "";
+                String line = "";
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    response += line;
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                return response.trim();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (method.equals("removeFriend")) {
+            String username_1 = params[1];
+            String username_2 = params[2];
+
+            try {
+                URL url = new URL(removeFriend_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
@@ -169,6 +318,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             case ("Signing up successful"):
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
                 ctx.startActivity(new Intent(ctx, Login.class));
+                ((Activity)ctx).overridePendingTransition(0, 0);
                 break;
             case ("Signing up failed"):
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
@@ -182,15 +332,15 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             case ("Login successful"):
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
                 ctx.startActivity(new Intent(ctx, Menu.class));
-                //userLocalStore.setUserLoggedIn(true);
+                ((Activity)ctx).overridePendingTransition(0, 0);
                 break;
             case ("Login failed, incorrect user data"):
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
                 break;
             case ("Friend added"):
+                ((Activity)ctx).finish();
                 ctx.startActivity(new Intent(ctx, Friendlist.class));
-                //BackgroundTaskRecyclerView backgroundTaskRecyclerView = new BackgroundTaskRecyclerView(ctx);
-                //backgroundTaskRecyclerView.execute();
+                ((Activity)ctx).overridePendingTransition(0, 0);
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
                 break;
             case ("User could not be found"):
@@ -202,7 +352,18 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             case ("Friend could not be added"):
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
                 break;
+            case ("Friend removed"):
+                ((Activity)ctx).finish();
+                ctx.startActivity(new Intent(ctx, Friendlist.class));
+                ((Activity)ctx).overridePendingTransition(0, 0);
+                Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+                break;
+            case ("User is not your friend"):
+                Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+                break;
+            case ("Friend could not be removed"):
+                Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+                break;
         }
-        //Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
     }
 }
