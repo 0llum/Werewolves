@@ -10,6 +10,7 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
 
     Button bFriends, bStats, bRules, bOpenGames, bCreateGame, bLogout;
     UserLocalStore userLocalStore;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,20 +32,26 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
         bLogout.setOnClickListener(this);
 
         userLocalStore = new UserLocalStore(this);
+
+        user = userLocalStore.getLoggedInUser();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        /*if(!authenticate()) {
-            startActivity(new Intent(Menu.this, Login.class));
-            overridePendingTransition(0, 0);
-        }*/
     }
 
-    /*private boolean authenticate() {
-        return userLocalStore.getUserLoggedIn();
+    /*@Override
+    protected void onPause() {
+        super.onPause();
+        setUserAFK(user);
     }*/
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUserOnline(user);
+    }
 
     @Override
     public void onClick(View v) {
@@ -52,9 +59,6 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
             case R.id.menu_friends:
                 startActivity(new Intent(this, Friendlist.class));
                 overridePendingTransition(0, 0);
-
-                //displayFriends();
-
                 break;
             case R.id.menu_stats:
                 break;
@@ -67,7 +71,7 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
             case R.id.menu_createGame:
                 break;
             case R.id.menu_logout:
-                //BackgroundTask.isLoggedIn = false;
+                setUserOffline(user);
                 userLocalStore.clearUserData();
                 userLocalStore.setUserLoggedIn(false);
                 startActivity(new Intent(this, Login.class));
@@ -76,9 +80,21 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    private void displayFriends() {
-        String method = "displayFriends";
-        BackgroundTaskRecyclerView backgroundTaskRecyclerView = new BackgroundTaskRecyclerView(this);
-        backgroundTaskRecyclerView.execute();
+    private void setUserOnline(User user) {
+        String method = "online";
+        BackgroundTask backgroundTask = new BackgroundTask(this);
+        backgroundTask.execute(method, user.username);
+    }
+
+    private void setUserOffline(User user) {
+        String method = "offline";
+        BackgroundTask backgroundTask = new BackgroundTask(this);
+        backgroundTask.execute(method, user.username);
+    }
+
+    private void setUserAFK(User user) {
+        String method = "afk";
+        BackgroundTask backgroundTask = new BackgroundTask(this);
+        backgroundTask.execute(method, user.username);
     }
 }

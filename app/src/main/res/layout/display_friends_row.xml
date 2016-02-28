@@ -19,6 +19,18 @@
         android:textColor="#FFFFFF"
         android:layout_marginLeft="10dp" />
 
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:id="@+id/display_friends_row_status"
+        android:layout_alignParentLeft="true"
+        android:text="status"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:singleLine="false"
+        android:layout_weight="0"
+        android:textColor="#FFFFFF"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

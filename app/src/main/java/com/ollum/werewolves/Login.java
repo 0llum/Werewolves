@@ -39,6 +39,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 String password = etPassword.getText().toString();
                 User user = new User(username, password);
                 logUserIn(user);
+                setUserOnline(user);
 
                 userLocalStore.storeUserData(user);
 
@@ -57,5 +58,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         String method = "login";
         BackgroundTask backgroundTask = new BackgroundTask(this);
         backgroundTask.execute(method, user.username, user.password);
+    }
+
+    private void setUserOnline(User user) {
+        String method = "online";
+        BackgroundTask backgroundTask = new BackgroundTask(this);
+        backgroundTask.execute(method, user.username);
     }
 }

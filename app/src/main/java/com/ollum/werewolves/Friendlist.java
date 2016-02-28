@@ -13,12 +13,9 @@ import android.widget.TextView;
 
 public class Friendlist extends AppCompatActivity implements View.OnClickListener {
 
-    ListView list;
     EditText searchBar;
-    Button add;
+    Button add, remove;
     UserLocalStore userLocalStore;
-
-    InputMethodManager inputMethodManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +28,23 @@ public class Friendlist extends AppCompatActivity implements View.OnClickListene
         BackgroundTaskRecyclerView backgroundTaskRecyclerView = new BackgroundTaskRecyclerView(Friendlist.this);
         backgroundTaskRecyclerView.execute(username_1);
 
-        //list = (ListView)findViewById(R.id.friendlist_listView);
         searchBar = (EditText)findViewById(R.id.friendlist_searchbar);
         add = (Button)findViewById(R.id.friendlist_add);
-
         add.setOnClickListener(this);
+        remove = (Button)findViewById(R.id.friendlist_remove);
+        remove.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.friendlist_add:
-                String username_2 = searchBar.getText().toString().trim();
-                addFriend(username_2);
+                String friendToAdd = searchBar.getText().toString().trim();
+                addFriend(friendToAdd);
+                break;
+            case R.id.friendlist_remove:
+                String friendToRemove = searchBar.getText().toString().trim();
+                removeFriend(friendToRemove);
                 break;
         }
     }
@@ -52,6 +53,14 @@ public class Friendlist extends AppCompatActivity implements View.OnClickListene
         String username_1 = userLocalStore.getLoggedInUser().username;
 
         String method = "addFriend";
+        BackgroundTask backgroundTask = new BackgroundTask(this);
+        backgroundTask.execute(method, username_1, username_2);
+    }
+
+    private void removeFriend(final String username_2) {
+        String username_1 = userLocalStore.getLoggedInUser().username;
+
+        String method = "removeFriend";
         BackgroundTask backgroundTask = new BackgroundTask(this);
         backgroundTask.execute(method, username_1, username_2);
     }
