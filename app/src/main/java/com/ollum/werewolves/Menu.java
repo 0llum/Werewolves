@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.app.Service;
 
 public class Menu extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,16 +46,26 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
         super.onStart();
     }
 
-    /*@Override
+    @Override
     protected void onPause() {
         super.onPause();
         setUserAFK(user);
-    }*/
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
         setUserOnline(user);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        setUserOffline(user);
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
     @Override
@@ -78,6 +89,8 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
                 setUserOffline(user);
                 userLocalStore.clearUserData();
                 userLocalStore.setUserLoggedIn(false);
+
+                finish();
                 startActivity(new Intent(this, Login.class));
                 overridePendingTransition(0, 0);
                 break;

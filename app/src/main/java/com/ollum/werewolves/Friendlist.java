@@ -16,6 +16,7 @@ public class Friendlist extends AppCompatActivity implements View.OnClickListene
     EditText searchBar;
     Button add, remove;
     UserLocalStore userLocalStore;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class Friendlist extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.friendlist);
 
         userLocalStore = new UserLocalStore(this);
+        User user = userLocalStore.getLoggedInUser();
         String username_1 = userLocalStore.getLoggedInUser().username;
 
         BackgroundTaskRecyclerView backgroundTaskRecyclerView = new BackgroundTaskRecyclerView(Friendlist.this);
@@ -33,6 +35,24 @@ public class Friendlist extends AppCompatActivity implements View.OnClickListene
         add.setOnClickListener(this);
         remove = (Button)findViewById(R.id.friendlist_remove);
         remove.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        setUserAFK(user);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUserOnline(user);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        setUserOffline(user);
     }
 
     @Override
@@ -63,5 +83,23 @@ public class Friendlist extends AppCompatActivity implements View.OnClickListene
         String method = "removeFriend";
         BackgroundTask backgroundTask = new BackgroundTask(this);
         backgroundTask.execute(method, username_1, username_2);
+    }
+
+    private void setUserOnline(User user) {
+        String method = "online";
+        BackgroundTask backgroundTask = new BackgroundTask(this);
+        backgroundTask.execute(method, user.username);
+    }
+
+    private void setUserOffline(User user) {
+        String method = "offline";
+        BackgroundTask backgroundTask = new BackgroundTask(this);
+        backgroundTask.execute(method, user.username);
+    }
+
+    private void setUserAFK(User user) {
+        String method = "afk";
+        BackgroundTask backgroundTask = new BackgroundTask(this);
+        backgroundTask.execute(method, user.username);
     }
 }
