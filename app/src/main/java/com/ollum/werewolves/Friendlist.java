@@ -37,7 +37,7 @@ public class Friendlist extends AppCompatActivity implements View.OnClickListene
         remove.setOnClickListener(this);
     }
 
-    @Override
+    /*@Override
     protected void onPause() {
         super.onPause();
         setUserAFK(user);
@@ -53,7 +53,7 @@ public class Friendlist extends AppCompatActivity implements View.OnClickListene
     protected void onDestroy() {
         super.onDestroy();
         setUserOffline(user);
-    }
+    }*/
 
     @Override
     public void onClick(View v) {

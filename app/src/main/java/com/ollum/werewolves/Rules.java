@@ -18,7 +18,7 @@ public class Rules extends AppCompatActivity {
         user = userLocalStore.getLoggedInUser();
     }
 
-    @Override
+    /*@Override
     protected void onPause() {
         super.onPause();
         setUserAFK(user);
@@ -34,7 +34,7 @@ public class Rules extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         setUserOffline(user);
-    }
+    }*/
 
     private void setUserOnline(User user) {
         String method = "online";

@@ -52,7 +52,7 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
         setUserAFK(user);
     }
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
         setUserOnline(user);
@@ -62,7 +62,7 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         setUserOffline(user);
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
