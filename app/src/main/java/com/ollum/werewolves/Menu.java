@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.app.Service;
+import android.widget.Toast;
 
 public class Menu extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,34 +36,25 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
         bLogout.setOnClickListener(this);
 
         userLocalStore = new UserLocalStore(this);
-
         user = userLocalStore.getLoggedInUser();
+
+        setUserOnline(user);
+
         welcome = (TextView)findViewById(R.id.menu_welcome);
         welcome.setText("Welcome, " + user.getUsername());
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+     protected void onRestart() {
+        super.onRestart();
+        setUserOnline(user);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        setUserAFK(user);
-    }
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        setUserOnline(user);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
         setUserOffline(user);
-    }*/
+    }
 
     @Override
     public void onBackPressed() {

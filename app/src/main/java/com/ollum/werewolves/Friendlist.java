@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Friendlist extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,7 +25,7 @@ public class Friendlist extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.friendlist);
 
         userLocalStore = new UserLocalStore(this);
-        User user = userLocalStore.getLoggedInUser();
+        user = userLocalStore.getLoggedInUser();
         String username_1 = userLocalStore.getLoggedInUser().username;
 
         BackgroundTaskRecyclerView backgroundTaskRecyclerView = new BackgroundTaskRecyclerView(Friendlist.this);
@@ -35,25 +36,21 @@ public class Friendlist extends AppCompatActivity implements View.OnClickListene
         add.setOnClickListener(this);
         remove = (Button)findViewById(R.id.friendlist_remove);
         remove.setOnClickListener(this);
-    }
 
-    /*@Override
-    protected void onPause() {
-        super.onPause();
-        setUserAFK(user);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         setUserOnline(user);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onRestart() {
+        super.onRestart();
+        setUserOnline(user);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         setUserOffline(user);
-    }*/
+    }
 
     @Override
     public void onClick(View v) {

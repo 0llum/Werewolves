@@ -32,21 +32,24 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     }
 
     @Override
+    public void onBackPressed() {
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_login:
                 String username = etUsername.getText().toString().trim();
                 String password = etPassword.getText().toString();
                 User user = new User(username, password);
-                logUserIn(user);
-                setUserOnline(user);
 
+                logUserIn(user);
                 userLocalStore.storeUserData(user);
 
                 break;
 
             case R.id.login_signup:
-                finish();
+                //finish();
                 startActivity(new Intent(this, SignUp.class));
                 overridePendingTransition(0, 0);
 
