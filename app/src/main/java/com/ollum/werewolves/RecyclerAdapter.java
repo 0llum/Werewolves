@@ -37,7 +37,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.Recyc
 
         if (holder.viewType == TYPE_LIST) {
             User user = arrayList.get(position-1);
-            holder.username.setText(user.getUsername());
             if (user.getStatus() == 0) {
                 holder.status.setImageResource(R.drawable.offline);
             } else if (user.getStatus() == 1) {
@@ -45,6 +44,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.Recyc
             } else if (user.getStatus() == 2) {
                 holder.status.setImageResource(R.drawable.afk);
             }
+            holder.username.setText(user.getUsername());
+            holder.lastOnline.setText(user.getLastOnline());
         }
     }
 
@@ -55,7 +56,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.Recyc
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        TextView username;
+        TextView username, lastOnline;
         ImageView status;
         int viewType;
 
@@ -63,8 +64,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.Recyc
             super(view);
             if (viewType == TYPE_LIST) {
                 this.viewType = TYPE_LIST;
-                username = (TextView)view.findViewById(R.id.display_friends_row_username);
                 status = (ImageView)view.findViewById(R.id.display_friends_row_status);
+                username = (TextView)view.findViewById(R.id.display_friends_row_username);
+                lastOnline = (TextView)view.findViewById(R.id.display_friends_row_last_online);
             } else if (viewType == TYPE_HEAD) {
                 this.viewType = TYPE_HEAD;
             }

@@ -1,8 +1,10 @@
 package com.ollum.werewolves;
 
+import java.security.Timestamp;
+
 public class User {
 
-    String username, password, email;
+    String username, password, email, lastOnline;
     int status;
 
     public User (String username, String password, String email) {
@@ -10,6 +12,7 @@ public class User {
         this.password = password;
         this.email = email;
         this.status = 0;
+        this.lastOnline = "";
     }
 
     public User (String username, String password) {
@@ -17,6 +20,7 @@ public class User {
         this.password = password;
         this.email = "";
         this.status = 0;
+        this.lastOnline = "";
     }
 
     public User (String username, int status) {
@@ -24,6 +28,15 @@ public class User {
         this.password = "";
         this.email = "";
         this.status = status;
+        this.lastOnline = "";
+    }
+
+    public User (String username, int status, String lastOnline) {
+        this.username = username;
+        this.password = "";
+        this.email = "";
+        this.status = status;
+        this.lastOnline = lastOnline;
     }
 
     public String getUsername() {
@@ -56,5 +69,13 @@ public class User {
 
     public int getStatus() {
         return status;
+    }
+
+    public void setLastOnline(String lastOnline) {
+        this.lastOnline = lastOnline;
+    }
+
+    public String getLastOnline() {
+        return lastOnline;
     }
 }

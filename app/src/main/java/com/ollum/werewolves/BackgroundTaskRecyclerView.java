@@ -84,7 +84,7 @@ public class BackgroundTaskRecyclerView extends AsyncTask<String, User, Void>{
             while (count < jsonArray.length()) {
                 JSONObject JO = jsonArray.getJSONObject(count);
                 count++;
-                User user = new User(JO.getString("username_2"), JO.getInt("status"));
+                User user = new User(JO.getString("username_2"), JO.getInt("status"), JO.getString("lastOnline"));
                 publishProgress(user);
             }
 
