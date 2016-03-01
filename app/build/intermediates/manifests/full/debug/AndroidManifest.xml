@@ -43,6 +43,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity android:name="com.ollum.werewolves.Settings" />
     </application>
 
 </manifest>

@@ -1,6 +1,10 @@
 package com.ollum.werewolves;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,12 +16,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Friendlist extends AppCompatActivity implements View.OnClickListener {
+public class Friendlist extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     EditText searchBar;
     Button add, remove;
     UserLocalStore userLocalStore;
     User user;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,13 @@ public class Friendlist extends AppCompatActivity implements View.OnClickListene
         add.setOnClickListener(this);
         remove = (Button)findViewById(R.id.friendlist_remove);
         remove.setOnClickListener(this);
+
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.friendlist_swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        if (swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
 
         setUserOnline(user);
     }
@@ -84,19 +96,26 @@ public class Friendlist extends AppCompatActivity implements View.OnClickListene
 
     private void setUserOnline(User user) {
         String method = "online";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
-        backgroundTask.execute(method, user.username);
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
     }
 
     private void setUserOffline(User user) {
         String method = "offline";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
-        backgroundTask.execute(method, user.username);
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
     }
 
     private void setUserAFK(User user) {
         String method = "afk";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
-        backgroundTask.execute(method, user.username);
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
+    }
+
+    @Override
+    public void onRefresh() {
+        finish();
+        startActivity(new Intent(this, Friendlist.class));
+        overridePendingTransition(0, 0);
     }
 }

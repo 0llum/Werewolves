@@ -12,7 +12,7 @@ import android.widget.Toast;
 public class Menu extends AppCompatActivity implements View.OnClickListener {
 
     TextView welcome;
-    Button bFriends, bStats, bRules, bOpenGames, bCreateGame, bLogout;
+    Button bFriends, bStats, bRules, bOpenGames, bCreateGame, bLogout, bSettings;
     UserLocalStore userLocalStore;
     User user;
 
@@ -27,6 +27,7 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
         bOpenGames = (Button)findViewById(R.id.menu_openGames);
         bCreateGame = (Button)findViewById(R.id.menu_createGame);
         bLogout = (Button)findViewById(R.id.menu_logout);
+        bSettings = (Button)findViewById(R.id.menu_settings);
 
         bFriends.setOnClickListener(this);
         bStats.setOnClickListener(this);
@@ -34,6 +35,7 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
         bOpenGames.setOnClickListener(this);
         bCreateGame.setOnClickListener(this);
         bLogout.setOnClickListener(this);
+        bSettings.setOnClickListener(this);
 
         userLocalStore = new UserLocalStore(this);
         user = userLocalStore.getLoggedInUser();
@@ -86,24 +88,28 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
                 startActivity(new Intent(this, Login.class));
                 overridePendingTransition(0, 0);
                 break;
+            case R.id.menu_settings:
+                startActivity(new Intent(this, Settings.class));
+                overridePendingTransition(0, 0);
+                break;
         }
     }
 
     private void setUserOnline(User user) {
         String method = "online";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
-        backgroundTask.execute(method, user.username);
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
     }
 
     private void setUserOffline(User user) {
         String method = "offline";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
-        backgroundTask.execute(method, user.username);
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
     }
 
     private void setUserAFK(User user) {
         String method = "afk";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
-        backgroundTask.execute(method, user.username);
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
     }
 }

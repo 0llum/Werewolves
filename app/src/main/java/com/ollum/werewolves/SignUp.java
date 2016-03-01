@@ -20,10 +20,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
-        etUsername = (EditText)findViewById(R.id.signup_username);
-        etPassword = (EditText)findViewById(R.id.signup_password);
+        etUsername = (EditText)findViewById(R.id.settings_oldPassword);
+        etPassword = (EditText)findViewById(R.id.settings_newPassword);
         etPwConfirm = (EditText)findViewById(R.id.signup_pwconfirm);
-        etEmail = (EditText)findViewById(R.id.signup_email);
+        etEmail = (EditText)findViewById(R.id.settings_newEmail);
 
         bSignUp = (Button)findViewById(R.id.signup_signup);
         bCancel = (Button)findViewById(R.id.signup_cancel);

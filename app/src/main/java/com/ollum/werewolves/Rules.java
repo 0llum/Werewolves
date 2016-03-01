@@ -36,19 +36,19 @@ public class Rules extends AppCompatActivity {
 
     private void setUserOnline(User user) {
         String method = "online";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
-        backgroundTask.execute(method, user.username);
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
     }
 
     private void setUserOffline(User user) {
         String method = "offline";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
-        backgroundTask.execute(method, user.username);
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
     }
 
     private void setUserAFK(User user) {
         String method = "afk";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
-        backgroundTask.execute(method, user.username);
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
     }
 }

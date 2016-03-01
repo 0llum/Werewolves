@@ -1,5 +1,6 @@
 package com.ollum.werewolves;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     EditText etUsername, etPassword;
     Button bLogin, bSignUp;
     UserLocalStore userLocalStore;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
     private void setUserOnline(User user) {
         String method = "online";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
-        backgroundTask.execute(method, user.username);
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
     }
 }

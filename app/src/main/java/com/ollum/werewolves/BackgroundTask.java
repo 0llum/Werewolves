@@ -1,6 +1,7 @@
 package com.ollum.werewolves;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -20,28 +21,35 @@ import java.net.URLEncoder;
 public class BackgroundTask extends AsyncTask<String, Void, String>{
 
     Context ctx;
+    ProgressDialog progressDialog;
 
     public BackgroundTask(Context ctx) {
         this.ctx = ctx;
+        progressDialog = new ProgressDialog(ctx);
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Progressing");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
     }
 
     @Override
      protected String doInBackground(String... params) {
         String reg_url = "http://0llum.bplaced.net/Werewolves/SignUp.php";
         String login_url = "http://0llum.bplaced.net/Werewolves/Login.php";
-        String offline_url = "http://0llum.bplaced.net/Werewolves/Offline.php";
-        String online_url = "http://0llum.bplaced.net/Werewolves/Online.php";
-        String afk_url = "http://0llum.bplaced.net/Werewolves/AFK.php";
         String addFriend_url = "http://0llum.bplaced.net/Werewolves/AddFriend.php";
         String removeFriend_url = "http://0llum.bplaced.net/Werewolves/RemoveFriend.php";
+        String deleteAccount_url = "http://0llum.bplaced.net/Werewolves/DeleteAccount.php";
+        String changeEmail_url = "http://0llum.bplaced.net/Werewolves/ChangeEmail.php";
+        String changePassword_url = "http://0llum.bplaced.net/Werewolves/ChangePassword.php";
         String method = params[0];
 
         if (method.equals("signUp")) {
+
             String username = params[1];
             String password = params[2];
             String email = params[3];
@@ -119,114 +127,6 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (method.equals("online")) {
-            String username = params[1];
-
-            try {
-                URL url = new URL(online_url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String data =   URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
-                bufferedWriter.write(data);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
-                String response = "";
-                String line = "";
-
-                while ((line = bufferedReader.readLine()) != null) {
-                    response += line;
-                }
-
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-
-                return response.trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (method.equals("offline")) {
-            String username = params[1];
-
-            try {
-                URL url = new URL(offline_url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String data =   URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
-                bufferedWriter.write(data);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
-                String response = "";
-                String line = "";
-
-                while ((line = bufferedReader.readLine()) != null) {
-                    response += line;
-                }
-
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-
-                return response.trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (method.equals("afk")) {
-            String username = params[1];
-
-            try {
-                URL url = new URL(afk_url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String data =   URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
-                bufferedWriter.write(data);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
-                String response = "";
-                String line = "";
-
-                while ((line = bufferedReader.readLine()) != null) {
-                    response += line;
-                }
-
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-
-                return response.trim();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         } else if (method.equals("addFriend")) {
             String username_1 = params[1];
             String username_2 = params[2];
@@ -240,7 +140,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String data =   URLEncoder.encode("username_1", "UTF-8") + "=" + URLEncoder.encode(username_1, "UTF-8") + "&" +
-                        URLEncoder.encode("username_2", "UTF-8") + "=" + URLEncoder.encode(username_2, "UTF-8");
+                                URLEncoder.encode("username_2", "UTF-8") + "=" + URLEncoder.encode(username_2, "UTF-8");
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -278,7 +178,121 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String data =   URLEncoder.encode("username_1", "UTF-8") + "=" + URLEncoder.encode(username_1, "UTF-8") + "&" +
-                        URLEncoder.encode("username_2", "UTF-8") + "=" + URLEncoder.encode(username_2, "UTF-8");
+                                URLEncoder.encode("username_2", "UTF-8") + "=" + URLEncoder.encode(username_2, "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String response = "";
+                String line = "";
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    response += line;
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                return response.trim();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (method.equals("deleteAccount")) {
+            String username = params[1];
+
+            try {
+                URL url = new URL(deleteAccount_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String data =   URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String response = "";
+                String line = "";
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    response += line;
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                return response.trim();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (method.equals("changeEmail")) {
+            String username = params[1];
+            String email = params[2];
+
+            try {
+                URL url = new URL(changeEmail_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String data =   URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + "&" +
+                                URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String response = "";
+                String line = "";
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    response += line;
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                return response.trim();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (method.equals("changePassword")) {
+            String username = params[1];
+            String oldPassword = params[2];
+            String newPassword = params[3];
+
+            try {
+                URL url = new URL(changePassword_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String data =   URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + "&" +
+                                URLEncoder.encode("oldPassword", "UTF-8") + "=" + URLEncoder.encode(oldPassword, "UTF-8") + "&" +
+                                URLEncoder.encode("newPassword", "UTF-8") + "=" + URLEncoder.encode(newPassword, "UTF-8");
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -314,6 +328,9 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
 
     @Override
     protected void onPostExecute(String result) {
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
         switch (result) {
             case ("Signing up successful"):
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
@@ -365,6 +382,24 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
                 break;
             case ("Friend could not be removed"):
+                Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+                break;
+            case ("Account deleted"):
+                ((Activity)ctx).finish();
+                ctx.startActivity(new Intent(ctx, Login.class));
+                Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+                break;
+            case ("Email address successfully changed"):
+                ((Activity)ctx).finish();
+                ctx.startActivity(new Intent(ctx, Settings.class));
+                Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+                break;
+            case ("Password successfully changed"):
+                ((Activity)ctx).finish();
+                ctx.startActivity(new Intent(ctx, Login.class));
+                Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+                break;
+            case ("Old password is wrong"):
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
                 break;
         }

@@ -300,6 +300,10 @@
         "source": "/Users/Ollum/AndroidStudioProjects/Werewolves/C:\\Users\\0llum\\AndroidStudioProjects\\Werewolves\\app\\src\\main\\res\\layout\\friendlist.xml"
     },
     {
+        "merged": "/Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/res/merged/debug/layout/settings.xml",
+        "source": "/Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/res/layout/settings.xml"
+    },
+    {
         "merged": "/Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/res/merged/debug/layout/signup.xml",
         "source": "/Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/res/layout/signup.xml"
     },

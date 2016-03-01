@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidManifest.xml:2:1-42:12
+ADDED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidManifest.xml:2:1-43:12
 	package
 		ADDED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidManifest.xml:3:5-35
 		INJECTED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidManifest.xml
@@ -18,7 +18,7 @@ ADDED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidMan
 	android:name
 		ADDED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidManifest.xml:5:22-64
 application
-ADDED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidManifest.xml:7:5-40:19
+ADDED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidManifest.xml:7:5-41:19
 MERGED from [com.android.support:appcompat-v7:23.1.1] /Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.1.1] /Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.1.1] /Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:22:5-20
@@ -84,6 +84,10 @@ ADDED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidMan
 		ADDED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidManifest.xml:37:13-74
 	android:name
 		ADDED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidManifest.xml:36:13-39
+activity#com.ollum.werewolves.Settings
+ADDED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidManifest.xml:40:9-55
+	android:name
+		ADDED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidManifest.xml:40:19-43
 uses-sdk
 INJECTED from /Users/Ollum/AndroidStudioProjects/Werewolves/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.1.1] /Users/Ollum/AndroidStudioProjects/Werewolves/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:20:5-43

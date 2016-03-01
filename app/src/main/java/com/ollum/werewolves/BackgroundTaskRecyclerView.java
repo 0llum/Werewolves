@@ -1,6 +1,7 @@
 package com.ollum.werewolves;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,10 +31,12 @@ public class BackgroundTaskRecyclerView extends AsyncTask<String, User, Void>{
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<User> arrayList = new ArrayList<>();
+    ProgressDialog progressDialog;
 
     public BackgroundTaskRecyclerView(Context ctx) {
         this.ctx = ctx;
         activity = (Activity)ctx;
+        progressDialog = new ProgressDialog(ctx);
     }
 
     String json_String = "http://0llum.bplaced.net/Werewolves/DisplayFriends.php";
@@ -46,6 +49,11 @@ public class BackgroundTaskRecyclerView extends AsyncTask<String, User, Void>{
         recyclerView.setHasFixedSize(true);
         adapter = new RecyclerAdapter(arrayList);
         recyclerView.setAdapter(adapter);
+
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Progressing");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
     }
 
     @Override
@@ -109,5 +117,8 @@ public class BackgroundTaskRecyclerView extends AsyncTask<String, User, Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 }
