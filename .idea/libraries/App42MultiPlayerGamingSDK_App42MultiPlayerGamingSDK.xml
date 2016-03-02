@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="App42MultiPlayerGamingSDK.App42MultiPlayerGamingSDK">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/App42MultiPlayerGamingSDK/App42MultiPlayerGamingSDK.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
