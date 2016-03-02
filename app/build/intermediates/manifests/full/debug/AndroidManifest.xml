@@ -45,6 +45,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name="com.ollum.werewolves.Settings" />
+        <activity android:name="com.ollum.werewolves.ChatActivity" />
+        <activity android:name="com.ollum.werewolves.ResultActivity" />
+        <activity android:name="com.ollum.werewolves.MainActivity" />
+        <activity android:name="com.ollum.werewolves.Chatroom" />
     </application>
 
 </manifest>

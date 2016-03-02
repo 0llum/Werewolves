@@ -55,9 +55,9 @@
         style="?android:attr/borderlessButtonStyle"/>
 
     <Button
-        android:layout_width="130dp"
+        android:layout_width="150dp"
         android:layout_height="40dp"
-        android:text="Open Games"
+        android:text="Join Chatroom"
         android:id="@+id/menu_openGames"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
