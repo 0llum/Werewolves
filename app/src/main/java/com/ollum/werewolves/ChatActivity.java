@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shephertz.app42.gaming.multiplayer.client.WarpClient;
 import com.shephertz.app42.gaming.multiplayer.client.events.ChatEvent;
@@ -31,7 +32,6 @@ import com.shephertz.app42.gaming.multiplayer.client.listener.RoomRequestListene
 
 public class ChatActivity extends AppCompatActivity implements RoomRequestListener, NotifyListener{
 
-    private ProgressDialog progressDialog;
     private WarpClient theClient;
     private TextView outputView;
     private EditText inputEditText;
@@ -40,6 +40,9 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
     private Spinner onlineUsers;
     private String roomId;
     private ArrayList<String> onlineUserList = new ArrayList<String>();
+
+    UserLocalStore userLocalStore;
+    User user;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -51,7 +54,6 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
         onlineUsers = (Spinner)findViewById(R.id.onlineUserSpinner);
         roomId = "";
         roomId = getIntent().getStringExtra("roomId");
-
         try{
             theClient = WarpClient.getInstance();
         }catch(Exception e){
@@ -61,7 +63,25 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
         theClient.subscribeRoom(roomId);
         theClient.addNotificationListener(this);
         theClient.getLiveRoomInfo(roomId);
-        progressDialog = ProgressDialog.show(this, "", "Please wait..");
+
+        userLocalStore = new UserLocalStore(this);
+        user = userLocalStore.getLoggedInUser();
+
+        setUserAFK(user);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setUserAFK(user);
+        theClient.sendChat(user.username + " has come online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        setUserOffline(user);
+        theClient.sendChat(user.username + " has gone offline");
     }
 
     public void onDestroy(){
@@ -73,15 +93,23 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(roomId.length()>0){
+            theClient.leaveRoom(roomId);
+            theClient.disconnect();
+        }
+    }
+
     public void onSendClicked(View view){
         outputScrollView.fullScroll(ScrollView.FOCUS_DOWN);
-        theClient.sendChat(inputEditText.getText().toString());
+        theClient.sendChat(user.username + ": " +inputEditText.getText().toString());
         inputEditText.setText("");
     }
 
     @Override
     public void onGetLiveRoomInfoDone(final LiveRoomInfoEvent event) {
-        progressDialog.dismiss();
         if(event.getResult()==0){
             if(event.getJoinedUsers().length>1){// if more than one user is online
                 final String onlineUser[] = Utils.removeUsernameFromArray(event.getJoinedUsers());
@@ -110,7 +138,6 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
                     Utils.showToast(ChatActivity.this, "Error in fetching data. Please try later");
                 }
             });
-
         }
     }
 
@@ -133,31 +160,26 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
         // TODO Auto-generated method stub
 
     }
-
     @Override
     public void onLeaveRoomDone(RoomEvent arg0) {
         // TODO Auto-generated method stub
 
     }
-
     @Override
     public void onSetCustomRoomDataDone(LiveRoomInfoEvent arg0) {
         // TODO Auto-generated method stub
 
     }
-
     @Override
     public void onSubscribeRoomDone(RoomEvent arg0) {
         // TODO Auto-generated method stub
 
     }
-
     @Override
     public void onUnSubscribeRoomDone(RoomEvent arg0) {
         // TODO Auto-generated method stub
 
     }
-
     @Override
     public void onUpdatePropertyDone(LiveRoomInfoEvent arg0) {
         // TODO Auto-generated method stub
@@ -169,7 +191,7 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                outputView.append("\n"+event.getSender()+": "+event.getMessage());
+                outputView.append("\n"+event.getMessage());
             }
         });
     }
@@ -193,14 +215,15 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
         // TODO Auto-generated method stub
 
     }
-
     @Override
     public void onUserJoinedLobby(LobbyData arg0, String arg1) {
         // TODO Auto-generated method stub
 
     }
+
     @Override
     public void onUserJoinedRoom(final RoomData roomData, final String userName) {
+        theClient.sendChat(userName + " entered the room");
         if(userName.equals(Utils.USER_NAME)==false){
             onlineUserList.add(userName);
             runOnUiThread(new Runnable() {
@@ -211,6 +234,7 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
             });
         }
     }
+
     @Override
     public void onUserLeftLobby(LobbyData arg0, String arg1) {
         // TODO Auto-generated method stub
@@ -218,6 +242,7 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
     }
     @Override
     public void onUserLeftRoom(final RoomData roomData, final String userName) {
+        theClient.sendChat(userName + " left the room");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -225,7 +250,6 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
                 fillDataInSpinner(null);
             }
         });
-
     }
 
     @Override
@@ -233,7 +257,6 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
         // TODO Auto-generated method stub
 
     }
-
     @Override
     public void onLockPropertiesDone(byte arg0) {
         // TODO Auto-generated method stub
@@ -244,7 +267,6 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
         // TODO Auto-generated method stub
 
     }
-
     @Override
     public void onUserPaused(String arg0, boolean arg1, String arg2) {
         // TODO Auto-generated method stub
@@ -266,21 +288,36 @@ public class ChatActivity extends AppCompatActivity implements RoomRequestListen
 
     }
     @Override
-    public void onUserChangeRoomProperty(RoomData arg0, String arg1,
-                                         HashMap<String, Object> arg2, HashMap<String, String> arg3) {
+    public void onUserChangeRoomProperty(RoomData arg0, String arg1, HashMap<String, Object> arg2, HashMap<String, String> arg3) {
         // TODO Auto-generated method stub
 
     }
-
     @Override
     public void onNextTurnRequest(String arg0) {
         // TODO Auto-generated method stub
 
     }
-
     @Override
     public void onPrivateUpdateReceived(String arg0, byte[] arg1, boolean arg2) {
         // TODO Auto-generated method stub
 
+    }
+
+    private void setUserOnline(User user) {
+        String method = "online";
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
+    }
+
+    private void setUserOffline(User user) {
+        String method = "offline";
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
+    }
+
+    private void setUserAFK(User user) {
+        String method = "afk";
+        BackgroundTaskStatus backgroundTaskStatus = new BackgroundTaskStatus(this);
+        backgroundTaskStatus.execute(method, user.username);
     }
 }

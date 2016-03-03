@@ -38,11 +38,8 @@ public class Menu extends AppCompatActivity implements View.OnClickListener, Con
     private ProgressDialog progressDialog;
     HashMap<String, Object> propertiesToMatch;
     private String roomIdJoined = "";
-    private long timeCounter = 0;
-    private long startTime = 0;
     private String[] roomIds;
-    private int roomIdCounter=0;
-    private boolean withoutStatus = false;
+    private int roomIdCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +72,13 @@ public class Menu extends AppCompatActivity implements View.OnClickListener, Con
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //theClient.addZoneRequestListener(this);
+        //theClient.addRoomRequestListener(this);
+    }
+
+    @Override
      protected void onRestart() {
         super.onRestart();
         setUserOnline(user);
@@ -84,6 +88,13 @@ public class Menu extends AppCompatActivity implements View.OnClickListener, Con
     protected void onPause() {
         super.onPause();
         setUserOffline(user);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //theClient.removeZoneRequestListener(this);
+        //theClient.removeRoomRequestListener(this);
     }
 
     @Override
@@ -104,6 +115,9 @@ public class Menu extends AppCompatActivity implements View.OnClickListener, Con
                 overridePendingTransition(0, 0);
                 break;
             case R.id.menu_openGames:
+                //startActivity(new Intent(this, MainActivity.class));
+                //overridePendingTransition(0, 0);
+
                 init();
 
                 String userName = user.username;
@@ -113,6 +127,10 @@ public class Menu extends AppCompatActivity implements View.OnClickListener, Con
                 progressDialog.setCancelable(false);
                 theClient.addConnectionRequestListener(this);
                 theClient.connectWithUserName(userName);
+
+                theClient.addZoneRequestListener(this);
+                theClient.addRoomRequestListener(this);
+
                 break;
             case R.id.menu_createGame:
                 break;
@@ -163,43 +181,65 @@ public class Menu extends AppCompatActivity implements View.OnClickListener, Con
         });
     }
 
-    @Override
-    public void onDisconnectDone(ConnectEvent connectEvent) {
-
-    }
-
-    @Override
-    public void onInitUDPDone(byte b) {
-
-    }
-
-    public void update(){
-        timeCounter++;
-    }
-
     public void joinChatroom() {
+        roomIdCounter = 0;
+        roomIds = null;
+        roomIdJoined = "";
+
         if(propertiesToMatch==null){
             propertiesToMatch = new HashMap<String, Object>();
         }else{
             propertiesToMatch.clear();
         }
         propertiesToMatch.put("topic", "chatroom");
-        timeCounter = 0;
-        roomIdCounter = 0;
-        roomIds = null;
-        roomIdJoined = "";
-        startTime = System.currentTimeMillis();
 
         theClient.joinRoomWithProperties(propertiesToMatch);
+    }
 
-        theClient.addZoneRequestListener(this);
-        theClient.addRoomRequestListener(this);
+    @Override
+    public void onJoinRoomDone(final RoomEvent event) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (event.getResult() == WarpResponseResultCode.SUCCESS) {
+                    roomIdJoined = event.getData().getId();
+                    joinChat();
+                } else {
+                }
+            }
+        });
+    }
 
-        /*Intent intent = new Intent(this, ChatActivity.class);
+    public void joinChat() {
+        Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("roomId", roomIdJoined);
-        startActivity(intent);*/
-        startActivity(new Intent(this, ResultActivity.class));
-        overridePendingTransition(0, 0);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onGetLiveRoomInfoDone(final LiveRoomInfoEvent event) {
+        HashMap roomProperties = event.getProperties();
+        Log.d("roomProperties" + roomProperties, "propertiesToMatch" + propertiesToMatch);
+
+        theClient.joinRoom("" + event.getData().getId());
+    }
+
+    @Override
+    public void onGetAllRoomsDone(AllRoomsEvent event) {
+        roomIds = event.getRoomIds();
+        Log.d("onGetAllRoomsDone" + roomIds, "onGetAllRoomsDone" + roomIds.length);
+        if(roomIds!=null && roomIds.length>0){
+            theClient.getLiveRoomInfo(roomIds[0]);
+            roomIdCounter++;
+        }
+    }
+
+    @Override
+    public void onDisconnectDone(ConnectEvent connectEvent) {
+
+    }
+    @Override
+    public void onInitUDPDone(byte b) {
     }
 
     private void setUserOnline(User user) {
@@ -220,153 +260,62 @@ public class Menu extends AppCompatActivity implements View.OnClickListener, Con
         backgroundTaskStatus.execute(method, user.username);
     }
 
-    public boolean hasMatchingProperties(HashMap<String, Object> totalProperties, HashMap<String, Object> propertiesToMatch) {
-        if(propertiesToMatch == null || totalProperties == null ){
-            return false;
-        }
-        for (Map.Entry<String, Object> entry : propertiesToMatch.entrySet()) {
-            String key_join = entry.getKey().toString();
-            if(totalProperties.get(key_join) == null){
-                return false;
-            }
-            if(totalProperties.get(key_join).equals(propertiesToMatch.get(key_join))){
-                continue;
-            }else{
-                return false;
-            }
-        }
-        return true;
-    }
-
     @Override
     public void onSubscribeRoomDone(RoomEvent roomEvent) {
 
     }
-
     @Override
     public void onUnSubscribeRoomDone(RoomEvent roomEvent) {
 
     }
-
-    @Override
-    public void onJoinRoomDone(final RoomEvent event) {
-        timeCounter = System.currentTimeMillis()-startTime;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(event.getResult()==WarpResponseResultCode.SUCCESS){
-                    roomIdJoined = event.getData().getId();
-                }else{
-                }
-            }
-        });
-    }
-
     @Override
     public void onLeaveRoomDone(RoomEvent roomEvent) {
 
     }
-
-    @Override
-    public void onGetLiveRoomInfoDone(final LiveRoomInfoEvent event) {
-        HashMap roomProperties = event.getProperties();
-        Log.d("roomProperties"+roomProperties, "propertiesToMatch"+propertiesToMatch);
-        boolean status = hasMatchingProperties(roomProperties, propertiesToMatch);
-        if(status){
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                }
-            });
-            theClient.joinRoom(""+event.getData().getId());
-        }else{
-            if(roomIdCounter<roomIds.length){
-                theClient.getLiveRoomInfo(roomIds[roomIdCounter]);
-                roomIdCounter++;
-            }else{
-                timeCounter = System.currentTimeMillis()-startTime;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                });
-
-            }
-        }
-    }
-
     @Override
     public void onSetCustomRoomDataDone(LiveRoomInfoEvent liveRoomInfoEvent) {
 
     }
-
     @Override
     public void onUpdatePropertyDone(LiveRoomInfoEvent liveRoomInfoEvent) {
 
     }
-
     @Override
     public void onLockPropertiesDone(byte b) {
 
     }
-
     @Override
     public void onUnlockPropertiesDone(byte b) {
 
     }
-
     @Override
     public void onDeleteRoomDone(RoomEvent roomEvent) {
 
     }
-
-    @Override
-    public void onGetAllRoomsDone(AllRoomsEvent event) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                //cb1.setChecked(true);
-            }
-        });
-
-        roomIds = event.getRoomIds();
-        Log.d("onGetAllRoomsDone"+roomIds, "onGetAllRoomsDone"+roomIds.length);
-        if(roomIds!=null && roomIds.length>0){
-            theClient.getLiveRoomInfo(roomIds[0]);
-            roomIdCounter++;
-        }
-    }
-
     @Override
     public void onCreateRoomDone(RoomEvent roomEvent) {
 
     }
-
     @Override
     public void onGetOnlineUsersDone(AllUsersEvent allUsersEvent) {
 
     }
-
     @Override
     public void onGetLiveUserInfoDone(LiveUserInfoEvent liveUserInfoEvent) {
 
     }
-
     @Override
     public void onSetCustomUserDataDone(LiveUserInfoEvent liveUserInfoEvent) {
 
     }
-
     @Override
     public void onGetMatchedRoomsDone(MatchedRoomsEvent matchedRoomsEvent) {
 
     }
-
     @Override
     public void onGetRoomsCountDone(RoomEvent roomEvent) {
 
     }
-
     @Override
     public void onGetUsersCountDone(AllUsersEvent allUsersEvent) {
 

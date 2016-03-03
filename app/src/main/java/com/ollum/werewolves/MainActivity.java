@@ -21,12 +21,6 @@ import com.shephertz.app42.gaming.multiplayer.client.listener.ConnectionRequestL
 
 public class MainActivity extends AppCompatActivity implements ConnectionRequestListener{
 
-    private Button withoutBtn;
-    private Button withBtn;
-    private Button connectToAppwarp;
-    private EditText nameEditText;
-    private TextView descText;
-    private Spinner spinnerTopic;
     private WarpClient theClient;
     private ProgressDialog progressDialog;
 
@@ -37,22 +31,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionRequest
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //withoutBtn = (Button)findViewById(R.id.withoutBtn);
-        //withBtn = (Button)findViewById(R.id.withBtn);
-        connectToAppwarp = (Button)findViewById(R.id.connect);
-        //descText = (TextView)findViewById(R.id.descText);
-        //spinnerTopic = (Spinner)findViewById(R.id.spinnerLevel);
-        nameEditText = (EditText)findViewById(R.id.editTextName);
-        //withoutBtn.setVisibility(View.GONE);
-        //withBtn.setVisibility(View.GONE);
-        //spinnerTopic.setVisibility(View.GONE);
+
         init();
 
         userLocalStore = new UserLocalStore(this);
         user = userLocalStore.getLoggedInUser();
-    }
-
-    public void onConnectClicked(View view){
 
         String userName = user.username;
 
@@ -62,44 +45,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionRequest
         theClient.addConnectionRequestListener(this);
         theClient.connectWithUserName(userName);
     }
-
-    /*public void onWithoutClicked(View view){
-        Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra("isWithout", true);
-        intent.putExtra("topic", spinnerTopic.getSelectedItem().toString());
-        startActivity(intent);
-        showMainView();
-    }
-
-    public void onWithClicked(View view){
-        Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra("isWithout", false);
-        intent.putExtra("topic", spinnerTopic.getSelectedItem().toString());
-        startActivity(intent);
-        showMainView();
-    }*/
-
-    public void joinChatroom() {
-        startActivity(new Intent(this, ResultActivity.class));
-    }
-
-    /*private void showMatchMakingOption(){
-        descText.setVisibility(View.GONE);
-        nameEditText.setVisibility(View.GONE);
-        connectToAppwarp.setVisibility(View.GONE);
-        withoutBtn.setVisibility(View.VISIBLE);
-        withBtn.setVisibility(View.VISIBLE);
-        spinnerTopic.setVisibility(View.VISIBLE);
-    }
-
-    private void showMainView(){
-        descText.setVisibility(View.VISIBLE);
-        nameEditText.setVisibility(View.VISIBLE);
-        connectToAppwarp.setVisibility(View.VISIBLE);
-        withoutBtn.setVisibility(View.GONE);
-        withBtn.setVisibility(View.GONE);
-        spinnerTopic.setVisibility(View.GONE);
-    }*/
 
     private void init(){
         WarpClient.initialize(Constants.apiKey, Constants.secretKey);
@@ -132,11 +77,14 @@ public class MainActivity extends AppCompatActivity implements ConnectionRequest
         });
     }
 
+    public void joinChatroom() {
+        startActivity(new Intent(this, ResultActivity.class));
+    }
+
     @Override
     public void onDisconnectDone(ConnectEvent event) {
 
     }
-
     @Override
     public void onInitUDPDone(byte arg0) {
 

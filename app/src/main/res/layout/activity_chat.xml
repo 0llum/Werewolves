@@ -4,19 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ollum.werewolves.ChatActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/gradientbackground">
 
     <Spinner
         android:id="@+id/onlineUserSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:spinnerMode="dialog" />
 
     <ScrollView
         android:id="@+id/outputScrollView"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="1"  >
+        android:layout_weight="1"
+        android:fillViewport="false">
         <TextView
             android:id="@+id/outputTextView"
             android:layout_width="fill_parent"
@@ -38,16 +40,21 @@
         <EditText
             android:layout_weight="1"
             android:id="@+id/inputEditText"
-            android:hint="@string/say"
+            android:hint="Message"
             android:layout_height="45dp"
-            android:layout_width="0dip" >
+            android:layout_width="match_parent"
+            android:singleLine="true"
+            android:layout_marginLeft="10dp">
         </EditText>
         <Button
-            android:text="@string/send"
-            android:layout_height="45dp"
-            android:layout_width="wrap_content"
+            android:text="Send"
+            android:layout_height="40dp"
+            android:layout_width="80dp"
             android:onClick="onSendClicked"
-            android:id="@+id/sendBtn">
+            android:id="@+id/sendBtn"
+            android:background="@drawable/button_action"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginRight="10dp">
         </Button>
     </LinearLayout>
 
